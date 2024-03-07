@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class RagdollOnOff : MonoBehaviour
+public class RagdollOnOff : NetworkBehaviour
 {
     public CapsuleCollider mainCollider;
     public Rigidbody playerRB;
@@ -10,6 +11,7 @@ public class RagdollOnOff : MonoBehaviour
     public Animator playerAnimator;
     public GameObject playerClub;
     public BasicPlayerController BasicPlayerController;
+    public Collider attack;
 
 
     public Transform clubParent;
@@ -20,6 +22,8 @@ public class RagdollOnOff : MonoBehaviour
 
     void Start()
     {
+        Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), attack, true);
+
         GetRagdollBits();
         foreach(Collider col in ragdollColliders)
         {
@@ -47,12 +51,13 @@ public class RagdollOnOff : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "PlayerCollision")
         {
             RagdollModeOn();
         }
+
     }
 
     Collider[] ragdollColliders;
@@ -80,7 +85,6 @@ public class RagdollOnOff : MonoBehaviour
 
         mainCollider.enabled = false;
         playerRB.isKinematic = true;
-
     }
 
     void RagdollModeOff()
