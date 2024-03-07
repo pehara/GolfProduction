@@ -107,7 +107,7 @@ public class BasicPlayerController : NetworkBehaviour
             isCarrying = false, // check for this later
             isSwinging = false,
             score = 0
-        };
+        };  
 
         //send current owner's state to the server
         _playerNetworkData.StorePlayerState(_playerData.Value, OwnerClientId);
