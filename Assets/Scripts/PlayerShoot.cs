@@ -4,24 +4,48 @@ using UnityEngine;
 
 public class PlayerShoot : NetworkBehaviour
 {
-    [SerializeField] private GameObject _projectile, projectile;
-    [SerializeField] private float _projectileSpeed = 5;
+    [SerializeField] private GameObject _projectile;
+    private GameObject projectile, hole;
+    [SerializeField] private float _projectileSpeed = 5f;
     [SerializeField] private float _cooldown = 0.5f;
     [SerializeField] private float _spawnDist = 1f;
 
     private float _lastFired = float.MinValue;
+    private float club = 1;
     private bool _fired;
     private bool projectileSpawned = false;
+    private bool inPlay, isShooting = false;
 
 
     private void Update()
     {
         if (!IsOwner) return;
 
-        if (Input.GetMouseButton(0) && _lastFired + _cooldown < Time.time)
+        if (Input.GetMouseButtonDown(0) && inPlay)
         {
-            _lastFired = Time.time;
             var dir = transform.forward + transform.up/2;
+
+            // NOTES -- TEST NOT FLATTENING Vec3 TO CREATE BETTER ANGLE SHOTS
+            if (projectileSpawned && Vector3.Distance(transform.position, projectile.transform.position) < 3f) {
+                isShooting = true;
+                dir = hole.transform.Find("Hole").position - projectile.transform.position;
+                dir.y = 0f;
+                dir.Normalize();
+                switch (club)
+                {
+                    case 0: 
+                        dir.y = 0.3f;
+                        _projectileSpeed = 50f;
+                        break;
+                    case 1:
+                        dir.y = 0.5f;
+                        _projectileSpeed = 25f;
+                        break;
+                    case 2:
+                        _projectileSpeed = 10f;
+                        break;
+                }
+            }
 
             // Send off the request to be executed on all clients
             RequestFireServerRpc(dir);
@@ -49,16 +73,29 @@ public class PlayerShoot : NetworkBehaviour
         if (!projectileSpawned) {
             projectile = Instantiate(_projectile, transform.position + transform.forward * _spawnDist, Quaternion.identity);
             projectileSpawned = true;
-        } else {
-            if (Vector3.Distance(transform.position, projectile.transform.position) < 3f) {
-                projectile.GetComponent<Rigidbody>().AddRelativeForce((dir * _projectileSpeed), ForceMode.Impulse);
-            }
+        } else if (isShooting) {
+            projectile.GetComponent<Rigidbody>().AddRelativeForce((dir * _projectileSpeed), ForceMode.Impulse);
+            isShooting = false;
         }
         //AudioSource.PlayClipAtPoint(_spawnClip, transform.position);
-
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Tee") && !projectileSpawned) {
+            inPlay = true;
+            club = 0;
+            hole = other.transform.parent.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Tee") && !projectileSpawned) {
+            inPlay = false;
+        }
+        club = 1; 
+    }
 
     private void OnGUI()
     {
