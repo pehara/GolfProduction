@@ -8,6 +8,11 @@ public class RagdollOnOff : MonoBehaviour
     public Rigidbody playerRB;
     public GameObject playerRig;
     public Animator playerAnimator;
+    public GameObject playerClub;
+    public BasicPlayerController BasicPlayerController;
+    
+    // PLAYER WILL RAGDOLL ON COLLISION WITH PlayerCollision TAG
+    // PRESS R TO RESET RAGDOLL
 
     void Start()
     {
@@ -17,7 +22,10 @@ public class RagdollOnOff : MonoBehaviour
 
     void Update()
     {
-        
+        if(Input.GetKey("r"))
+        {
+            RagdollModeOff();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -40,6 +48,7 @@ public class RagdollOnOff : MonoBehaviour
     void RagdollModeOn()
     {
         playerAnimator.enabled = false;
+        BasicPlayerController.enabled = false;
 
         foreach(Collider col in ragdollColliders)
         {
@@ -67,6 +76,7 @@ public class RagdollOnOff : MonoBehaviour
         }
 
         playerAnimator.enabled = true;
+        BasicPlayerController.enabled = true;
         mainCollider.enabled = true;
         playerRB.isKinematic = false;
     }
