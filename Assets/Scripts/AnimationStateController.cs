@@ -6,11 +6,14 @@ using UnityEngine;
 public class AnimationStateController : NetworkBehaviour
 {
     Animator animator;
+    public Collider clubCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        clubCollider.enabled = false;
+        Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), clubCollider);
     }
 
     // Update is called once per frame
@@ -77,10 +80,15 @@ public class AnimationStateController : NetworkBehaviour
             if (strikePressed)
             {
                 animator.SetBool("isStriking", true);
+                clubCollider.enabled = true;
             }
             if (!strikePressed)
             {
                 animator.SetBool("isStriking", false);
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                {
+                    clubCollider.enabled = false;
+                }
             }
         }
     }

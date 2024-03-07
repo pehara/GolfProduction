@@ -10,14 +10,33 @@ public class RagdollOnOff : MonoBehaviour
     public Animator playerAnimator;
     public GameObject playerClub;
     public BasicPlayerController BasicPlayerController;
-    
+
+
+    public Transform clubParent;
+    private Vector3 clubOffset;
+    private Quaternion clubRotation;
     // PLAYER WILL RAGDOLL ON COLLISION WITH PlayerCollision TAG
     // PRESS R TO RESET RAGDOLL
 
     void Start()
     {
         GetRagdollBits();
-        RagdollModeOff();
+        foreach(Collider col in ragdollColliders)
+        {
+            col.enabled = false;
+        }
+        foreach(Rigidbody rb in limbsRigidBodies)
+        {
+            rb.isKinematic = true;
+        }
+
+        playerAnimator.enabled = true;
+        BasicPlayerController.enabled = true;
+        mainCollider.enabled = true;
+        playerRB.isKinematic = false;
+        
+        clubOffset = playerClub.transform.position - clubParent.position;
+        clubRotation = Quaternion.Inverse(clubParent.rotation) * playerClub.transform.rotation;
     }
 
     void Update()
@@ -79,6 +98,10 @@ public class RagdollOnOff : MonoBehaviour
         BasicPlayerController.enabled = true;
         mainCollider.enabled = true;
         playerRB.isKinematic = false;
+
+        playerClub.transform.position = clubParent.position + clubOffset;
+        playerClub.transform.rotation = clubParent.rotation * clubRotation;
+        playerClub.transform.SetParent(clubParent);
     }
 
 }

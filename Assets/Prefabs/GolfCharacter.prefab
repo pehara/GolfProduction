@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d64f489276d8b04e96de702d72d2d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clubCollider: {fileID: 6497462543559418630}
 --- !u!114 &3868171582620149218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +592,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 7225643878605417583}
   playerClub: {fileID: 4181731763572757015}
   BasicPlayerController: {fileID: 5786876800738959544}
+  clubParent: {fileID: 7353752214055861935}
 --- !u!1 &799593922335037580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,6 +1341,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2297672336456692090}
+  - component: {fileID: 5819585132513436676}
+  - component: {fileID: 6497462543559418630}
   m_Layer: 0
   m_Name: modelclub
   m_TagString: Untagged
@@ -1362,6 +1366,54 @@ Transform:
   - {fileID: 3378735200084651140}
   m_Father: {fileID: 7353752214055861935}
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 89.997}
+--- !u!54 &5819585132513436676
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4181731763572757015}
+  serializedVersion: 4
+  m_Mass: 2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!65 &6497462543559418630
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4181731763572757015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1608699, y: 3.13381, z: 0.21707231}
+  m_Center: {x: -0.07588484, y: -1.3368154, z: -0.046665374}
 --- !u!1 &4241242272739120749
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,7 +2748,6 @@ GameObject:
   - component: {fileID: 3378735200084651140}
   - component: {fileID: 7180127765807463379}
   - component: {fileID: 711926077802830346}
-  - component: {fileID: 8253454330922811431}
   m_Layer: 0
   m_Name: Cube
   m_TagString: PlayerCollision
@@ -2712,13 +2763,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8734908368311807419}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6801951, y: 0.11217611, z: 0.10614898, w: 0.71657765}
-  m_LocalPosition: {x: -0.17, y: -2.76, z: -0.36}
+  m_LocalRotation: {x: -0.68677443, y: 0.035986118, z: 0.029741548, w: 0.7253699}
+  m_LocalPosition: {x: -0.114, y: -2.759, z: -0.394}
   m_LocalScale: {x: 10, y: 30.000002, z: 12.946031}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2297672336456692090}
-  m_LocalEulerAnglesHint: {x: -87.011, y: 18.29, z: -0.522}
+  m_LocalEulerAnglesHint: {x: -86.832, y: 11.855, z: -6.526}
 --- !u!33 &7180127765807463379
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2771,24 +2822,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8253454330922811431
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8734908368311807419}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.02000003, y: 0.0070402175, z: 0.24000022}
-  m_Center: {x: 0.0000075940297, y: -0.006487532, z: 0.11000013}
