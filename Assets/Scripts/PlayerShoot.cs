@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerShoot : NetworkBehaviour
 {
-    [SerializeField] private GameObject _projectile;
-    [SerializeField] private float _projectileSpeed = 20;
+    [SerializeField] private GameObject _projectile, projectile;
+    [SerializeField] private float _projectileSpeed = 5;
     [SerializeField] private float _cooldown = 0.5f;
     [SerializeField] private float _spawnDist = 1f;
 
-
     private float _lastFired = float.MinValue;
     private bool _fired;
+    private bool projectileSpawned = false;
 
 
     private void Update()
@@ -46,8 +46,14 @@ public class PlayerShoot : NetworkBehaviour
 
     private void ExecuteShoot(Vector3 dir)
     {
-        var projectile = Instantiate(_projectile, transform.position + transform.forward * _spawnDist, Quaternion.identity);
-        projectile.GetComponent<Rigidbody>().AddRelativeForce((dir * _projectileSpeed), ForceMode.Impulse);
+        if (!projectileSpawned) {
+            projectile = Instantiate(_projectile, transform.position + transform.forward * _spawnDist, Quaternion.identity);
+            projectileSpawned = true;
+        } else {
+            if (Vector3.Distance(transform.position, projectile.transform.position) < 3f) {
+                projectile.GetComponent<Rigidbody>().AddRelativeForce((dir * _projectileSpeed), ForceMode.Impulse);
+            }
+        }
         //AudioSource.PlayClipAtPoint(_spawnClip, transform.position);
 
     }
