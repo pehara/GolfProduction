@@ -26,7 +26,7 @@ public class AnimationStateController : NetworkBehaviour
         bool backPressed = Input.GetKey("s");
         bool rightPressed = Input.GetKey("d");
         bool leftPressed = Input.GetKey("a");
-        bool strikePreessed = Input.GetKey("e");
+        bool strikePressed = Input.GetKeyDown("e");
 
         if(IsOwner){
             if (forwardPressed && !isWalking)
