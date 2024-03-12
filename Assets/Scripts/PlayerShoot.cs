@@ -17,6 +17,7 @@ public class PlayerShoot : NetworkBehaviour
     private Rigidbody _projectileRb;
     private bool isActive = false;
     private bool _projectileMoving = false;
+    public GameObject Projectile { get => _projectileInstance;  }
 
     // Activation -------------------------------------------------------------------------------------------------------------
     public void Activate() { isActive = true; _ragdollOnOff = GetComponent<RagdollOnOff>(); }
