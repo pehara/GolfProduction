@@ -28,6 +28,11 @@ public class BasicPlayerController : NetworkBehaviour
     private Animator _animator;
     private GameObject[] _flagPoles;
 
+    // Cosmetics
+    private PlayerHatController _playerHat;
+    private int _playerHatMeshId;
+    private int _playerHatTextureId;
+
     // Activation
     [SerializeField] private bool _isActive = false;
 
@@ -50,12 +55,17 @@ public class BasicPlayerController : NetworkBehaviour
     {
         _rb = gameObject.GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _playerHat = GetComponent<PlayerHatController>();
         _swingManager = GetComponent<SwingManager>();
         _ragdollOnOff = GetComponent<RagdollOnOff>();
         _flagPoles = GameObject.FindGameObjectsWithTag("HoleFlagPole");
 
         _ragdollOnOff.Activate(); // activate ragdoll
-        if (!IsOwner) return;
+        _playerHat.RandomizeHatTexture();
+        if (!IsOwner) 
+        {
+            return;
+        }
 #if ENABLE_INPUT_SYSTEM
         #region Input Actions Initialization
         _actions = new Actions();
@@ -69,6 +79,9 @@ public class BasicPlayerController : NetworkBehaviour
 #endif
         transform.position = new Vector3(Random.Range(390, 400), 69.1f, Random.Range(318, 320));
         // activate player controller - controller will activate the player movement, animations, shooting and ragdoll
+        _playerHat.RandomizeHatTexture();
+        _playerHatMeshId = _playerHat.GetCurrentMeshId();
+        _playerHatTextureId = _playerHat.GetCurrentTextureId();
         Activate();
     }
 
@@ -111,6 +124,8 @@ public class BasicPlayerController : NetworkBehaviour
         _currentPlayerState = new PlayerData
         {
             playerID = OwnerClientId,
+            hatTextureID = _playerHatTextureId,
+            hatMeshID = _playerHatMeshId,
             playerPos = transform.position,
             playerRot = transform.rotation,
             currentHole = 1,
@@ -194,6 +209,8 @@ public class BasicPlayerController : NetworkBehaviour
             _currentPlayerState = new PlayerData
             {
                 playerID = OwnerClientId,
+                hatTextureID = _playerHatTextureId,
+                hatMeshID = _playerHatMeshId,
                 playerPos = transform.position,
                 playerRot = transform.rotation,
                 currentHole = _currentPlayerState.currentHole,

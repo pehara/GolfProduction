@@ -9,6 +9,8 @@ using Unity.Netcode.Components;
 public struct PlayerData : INetworkSerializable
 {
     public ulong playerID;
+    public int hatTextureID;
+    public int hatMeshID;
     public Vector3 playerPos;
     public Quaternion playerRot;
     public int currentHole;
@@ -19,6 +21,8 @@ public struct PlayerData : INetworkSerializable
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref playerID);
+        serializer.SerializeValue(ref hatTextureID);
+        serializer.SerializeValue(ref hatMeshID);
         serializer.SerializeValue(ref playerPos);
         serializer.SerializeValue(ref playerRot);
         serializer.SerializeValue(ref currentHole);
@@ -76,6 +80,8 @@ public class PlayerNetworkData : NetworkBehaviour
             PlayerData newData = new PlayerData()
             {
                 playerID = data.playerID,
+                hatTextureID = data.hatTextureID,
+                hatMeshID = data.hatMeshID,
                 playerPos = data.playerPos,
                 playerRot = data.playerRot,
                 currentHole = data.currentHole,
