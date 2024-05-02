@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class RagdollOnOff : NetworkBehaviour
 {
@@ -19,6 +20,7 @@ public class RagdollOnOff : NetworkBehaviour
     private float delay;
     private bool isRagdoll = false; //is player in ragdoll mode
     private bool isActive = false; //is player instance active
+    private bool autoReset = true; //auto reset ragdoll mode after delay
 
 
 
@@ -58,8 +60,13 @@ public class RagdollOnOff : NetworkBehaviour
         // dev cheat keys
         if (Input.GetKey("q")) PerformRagdoll();
         if (Input.GetKey("r")) ResetRagdoll();
+        if (Input.GetKeyDown("t"))
+        {
+            AddForceToSelf(new Vector3(0, 20, 10));
 
-        if (isRagdoll) //auto reset ragdoll after delay
+        }
+
+        if (isRagdoll && autoReset) //auto reset ragdoll after delay
         {
             delay -= Time.deltaTime;
             if (delay <= 0)
@@ -77,12 +84,11 @@ public class RagdollOnOff : NetworkBehaviour
     // Dev Note: Use this public function to activate the ragdoll mode
     public void PerformRagdoll()
     {
-        Debug.Log("PerformRagdoll called for " + OwnerClientId);
-
         if (IsServer) RagdollModeOnClientRpc();
         else RagdollModeOnServerRpc();
 
         RagdollModeOn();
+
     }
     // Dev Note: Use this public function to deactivate the ragdoll mode
     public void ResetRagdoll()
@@ -99,6 +105,7 @@ public class RagdollOnOff : NetworkBehaviour
     // Dev Note: Don't call this function directly. Use the RPCs instead. - this will only exectute locally
     void RagdollModeOn()
     {
+        delay = getUpDelay; // reset delay every time ragdoll mode is activated - avoids instant reset
         if (_swingManager.isInSwingState())
         {
             _swingManager.ExitSwingMode();
@@ -138,6 +145,17 @@ public class RagdollOnOff : NetworkBehaviour
         mainCollider.enabled = true;
         playerRB.isKinematic = false;
         isRagdoll = false;
+
+        //move player to hips position
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Hips"))
+            {
+                transform.position = child.position;
+                Debug.Log("RagdollOnOff: Moved player to hips position: " + child.position);
+                break;
+            }
+        }
     }
 
     // Collision Detection ------------------------------------------------------------------------------------------------------------
@@ -175,7 +193,7 @@ public class RagdollOnOff : NetworkBehaviour
     [ServerRpc]
     public void RagdollModeOnServerRpc()
     {
-        Debug.Log("RagdollModeOnServerRpc called for " + OwnerClientId);
+        //Debug.Log("RagdollModeOnServerRpc called for " + OwnerClientId);
         RagdollModeOnClientRpc();
         RagdollModeOn();
     }
@@ -184,13 +202,13 @@ public class RagdollOnOff : NetworkBehaviour
     public void RagdollModeOffServerRpc()
     {
         RagdollModeOffClientRpc();
-        RagdollModeOff();
+        RagdollModeOff(); // this may be redundant - idk if we need to call this on the server since it will be called on each client anyway
     }
 
     [ClientRpc]
     public void RagdollModeOnClientRpc()
     {
-        Debug.Log("RagdollModeOnClientRpc called for " + OwnerClientId);
+        //Debug.Log("RagdollModeOnClientRpc called for " + OwnerClientId);
         RagdollModeOn();
     }
 
@@ -207,6 +225,39 @@ public class RagdollOnOff : NetworkBehaviour
     public bool IsRagdoll()
     {
         return isRagdoll;
+    }
+
+    public void AddForceToSelf(Vector3 force)
+    {
+        Debug.Log("RagDollOnOff: AddForceToSelf running on player " + OwnerClientId + " from client " + NetworkManager.Singleton.LocalClientId + " is owner: " + IsOwner);
+
+        if (IsOwner)
+        {
+            autoReset = false;
+            PerformRagdoll();
+            AddForceToSelfServerRpc(force);
+        }
+    }
+
+
+    [ServerRpc]
+    private void AddForceToSelfServerRpc(Vector3 force)
+    {
+        Debug.Log("RagDollOnOff: AddForceToSelfServerRpc running on " + OwnerClientId + " from client " + NetworkManager.Singleton.LocalClientId);
+        AddForceToSelfClientRpc(force);
+    }
+
+    [ClientRpc]
+    private void AddForceToSelfClientRpc(Vector3 force)
+    {
+        Debug.Log("RagDollOnOff: AddForceToSelfClientRpc running on " + OwnerClientId + " from client " + NetworkManager.Singleton.LocalClientId);
+        //playerRB.isKinematic = false; //this needs to be set back to true later but idk how to find out when the force is done being applied
+        //playerRB.AddForce(force, ForceMode.Impulse);
+        foreach (Rigidbody limb in limbsRigidBodies)
+        {
+            if (limb != playerRB) limb.AddForce(force, ForceMode.Impulse);
+        }
+        //playerRB.AddForce(new Vector3(0, 100, 0), ForceMode.Impulse);
     }
 
 }

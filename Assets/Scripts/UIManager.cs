@@ -99,7 +99,7 @@ public class UIManager : MonoBehaviour
     private Transform _cameraStartTransform;
     private MenuState menuState = MenuState.None; 
 
-    private void Awake()
+    private async void Awake()
     {
         // Title Button Events
         _titleStartButton.onClick.AddListener(TitleStart);
@@ -135,14 +135,18 @@ public class UIManager : MonoBehaviour
 
         instance = this;
 
-        RefreshDisplayList();
         InitializetLanguageDropdown();
+        await _lobbyManager.Authenticate(); //does not block main thread while being atuthenticated
     }
 
     private void Start() { DisablePause(); DisableSettings(); EnableUI(UIState.Title); }
 
     // Title Screen Methods
-    private void TitleStart() => EnableUI(UIState.Lobby);
+    private void TitleStart()
+    {
+        RefreshDisplayList();
+        EnableUI(UIState.Lobby);
+    }
     private void TitleSettings() => EnableSettings();
 
     // Lobby UI Methods
@@ -401,7 +405,7 @@ public class UIManager : MonoBehaviour
     public void ResetHUD()
     {
         _gamePlayerStrokesText.text = "0";
-        _holeCountText.text = "1";
+        _holeCountText.text = "0";
 
     }
 
