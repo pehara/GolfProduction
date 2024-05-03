@@ -66,7 +66,6 @@ public class BasicPlayerController : NetworkBehaviour
 
         _ragdollOnOff.Activate(); // activate ragdoll
         _swingManager.Activate(); // activate swing mode
-        _playerHat.RandomizeHatTexture();
         if (!IsOwner) 
         {
             return;
@@ -470,11 +469,3 @@ public class BasicPlayerController : NetworkBehaviour
         Activate();
     }
 }
-
-
-
-
-
-
-
-
