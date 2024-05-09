@@ -31,8 +31,6 @@ public class BasicPlayerController : NetworkBehaviour
 
     // Cosmetics
     private PlayerHatController _playerHat;
-    private int _playerHatMeshId;
-    private int _playerHatTextureId;
 
     // Spawning
     private bool _isSpawnedAtPos = false; // used to check if player has been spawned in correct position
@@ -82,9 +80,9 @@ public class BasicPlayerController : NetworkBehaviour
         #endregion
 #endif
         // activate player controller - controller will activate the player movement, animations, shooting and ragdoll
-        _playerHat.RandomizeHatTexture();
-        _playerHatMeshId = _playerHat.GetCurrentMeshId();
-        _playerHatTextureId = _playerHat.GetCurrentTextureId();
+        //_playerHat.RandomizeHatTexture();
+        //_playerHatMeshId = _playerHat.GetCurrentMeshId();
+        //_playerHatTextureId = _playerHat.GetCurrentTextureId();
         //Activate();
     }
 
@@ -154,8 +152,6 @@ public class BasicPlayerController : NetworkBehaviour
         _currentPlayerState = new PlayerData
         {
             playerID = OwnerClientId,
-            hatTextureID = _playerHatTextureId,
-            hatMeshID = _playerHatMeshId,
             currentHole = 1,
             strokes = 0,
             enemiesDefeated = 0,
