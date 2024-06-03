@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9215345536199999647
+--- !u!1 &8066077247184447588
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2466076414496669767}
-  - component: {fileID: 528006569231669600}
-  - component: {fileID: 3957049959548216411}
-  - component: {fileID: -4834733851751785832}
-  - component: {fileID: 8278360882770903480}
+  - component: {fileID: 1032316289402494273}
+  - component: {fileID: 8144553422350605155}
+  - component: {fileID: 798892418126855453}
+  - component: {fileID: 2871390595577790547}
+  - component: {fileID: 3891181297121451981}
   m_Layer: 0
   m_Name: Rock D
   m_TagString: Untagged
@@ -20,36 +20,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2466076414496669767
+--- !u!4 &1032316289402494273
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9215345536199999647}
+  m_GameObject: {fileID: 8066077247184447588}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071069, y: -0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 46.58332, y: 5, z: 198.25687}
-  m_LocalScale: {x: 253.09312, y: 253.09312, z: 42.604027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.514061, y: 6.6725116, z: 1.9077526}
+  m_LocalScale: {x: 37.59277, y: 37.59277, z: 6.328119}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &528006569231669600
+--- !u!33 &8144553422350605155
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9215345536199999647}
-  m_Mesh: {fileID: 1963005956663052990, guid: bc2ec5cc249c5114d82e1615384c72ba, type: 3}
---- !u!23 &3957049959548216411
+  m_GameObject: {fileID: 8066077247184447588}
+  m_Mesh: {fileID: 1963005956663052990, guid: 6b5e91aecff85f742bfdf83d13943b2f, type: 3}
+--- !u!23 &798892418126855453
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9215345536199999647}
+  m_GameObject: {fileID: 8066077247184447588}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c72b9e6d97226f34f8cd5213e4b07bd0, type: 2}
+  - {fileID: -3165836154709417992, guid: 6b5e91aecff85f742bfdf83d13943b2f, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,13 +87,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-4834733851751785832
+--- !u!65 &2871390595577790547
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9215345536199999647}
+  m_GameObject: {fileID: 8066077247184447588}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -106,24 +106,24 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.002, y: 0.002, z: 0.002}
+  m_Size: {x: 0.020000001, y: 0.020000001, z: 0.020000014}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!205 &8278360882770903480
+--- !u!205 &3891181297121451981
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9215345536199999647}
+  m_GameObject: {fileID: 8066077247184447588}
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0, y: 0, z: 0}
-  m_Size: 1
+  m_Size: 0.02000003
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.04535883
+  - screenRelativeHeight: 0.017489837
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 3957049959548216411}
+    - renderer: {fileID: 798892418126855453}
   m_Enabled: 1
